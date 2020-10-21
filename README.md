@@ -14,7 +14,9 @@ Table of Contents
     * [Actions](#actions)
     * [Synchronous Actions](#synchronous-actions)
     * [Asynchronous Actions](#asynchronous-actions)
+* [Using global-hookstore](#using-global-hookstore) 
 * [Example](#example)
+* [Live Exapmples](#live-exapmples)
 
 ### Introduction:
 "global-hookstore" is React-hook based state management library. "global-hookstore" supports both synchronous & queued-asynchronus(FIFO) actions. 
@@ -28,12 +30,6 @@ React-components which subscribed (used) a given "slice" are only re-rendered on
 ### Install: 
 ```sh
 npm install global-hookstore
-```
-
-or
-
-```sh
-yarn add global-hookstore
 ```
 
 ## Features, Instruction and Glossary:
@@ -95,9 +91,248 @@ Asynchronous action performs state update in asynchronous fashion, and are non-b
     }
 }
 ```
+### Using global-hookstore:
+Using global-hookstore is straight forward, which requires following steps:
 
+***Initialise store-slice (state and actions belonging to a slice) using "initStoreSlice" method.***
 
+"initStoreSlice" method takes 3 parameters:
 
+1. **sliceIdentifier:** Apllication wide unique string value to identify store-slice.
+2. **actions:** An object holding all the "actions" to be performed on slice-state. Each action within the "actions" object need to have string identifier which should be unique within the slice.
+3. **initialState:** An object having initial state of the slice. 
+```jsx
+import { initStoreSlice } from "global-hookstore";
+
+  const actions = {
+  SYNCHRONUS_ACTION_IDENTIFIER: (currentState) => {
+    try {
+      const updatedStateChunk = { n1: 100 };
+      return updatedStateChunk;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+  ASYNCHRONUS_ACTION_IDENTIFIER: (currentState) => {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          setTimeout(() => {
+            const updatedStateChunk = { n2: 200 };
+            resolve(updatedStateChunk);
+          }, 100);
+        } catch (error) {
+          reject(new Error(error.message));
+        }
+      })();
+    });
+  }
+};
+
+initStoreSlice("TEST_STORE", actions, {
+  n1: 10,
+  n2: 20,
+  n3: 30
+});
+```
+***Use global-hookstore in React component for state management.***
+1. Import **useStore** hook from global-hookstore.
+```jsx
+import { useStore } from "global-hookstore";
+```
+2. Initialize **useStore** hook with the slice-name of the slice.
+```jsx
+const {state, dispatch, dispatchAsync} = useStore("TEST_STORE");
+```
+**state** represents the current state of the slice-state.
+**dispatch** method can be used to perform **synchronous (blocking)** operation on slice-state.
+**dispatchasync** method can be used to perform **asynchronous (non-blocking)** operation on slice-state.
+
+***OPTIONAL OPTOUT from rerendering of React-components from slice-state updates.***
+
+There might be case when React-components are only performing actions but not displaying the state (*such as a FORM only adding new items to state but not displaying existing items.*). In such cases React-components can optout rerenders by passing "false" to the parameter **shouldTriggerRerender** of **useStore** hook. 
+
+By default value of **shouldTriggerRerender** is **true**, thus all slice-state updates trigger rerender on React-components using **useStore** hook.
+
+```jsx
+const { state, dispatch, dispatchAsync } = useStore("TEST_STORE", false);
+
+OR
+
+// Not using "state" at all.
+const { dispatch, dispatchAsync } = useStore("TEST_STORE", false);
+```
+
+***Delete a store-slice if needed.***
+
+If a state-slice is no more needed in the application, it can be deleted from the global-store. **deleteStoreSlice** method of "global-hookstore" can be used to delete a state-slice.
+
+```jsx
+import { deleteStoreSlice } from "global-hookstore";
+
+deleteStoreSlice("SLICE_NAME");
+```
 ### Example:
 
-**1. Create store slice:**
+**1. Configure store slice:**
+
+```jsx
+// FILE: testStore.js
+
+import { initStoreSlice } from "global-hookstore";
+
+const init = () => {
+  const actions = {
+    UPDATE1: (currentState) => {
+      try {
+        const updatedStateChunk = { n1: 100 };
+        return updatedStateChunk;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    UPDATE2: (currentState) => {
+      try {
+        const updatedStateChunk = { n2: 200 };
+        return updatedStateChunk;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    UPDATE3: (currentState) => {
+      try {
+        const updatedStateChunk = { n3: 300 };
+        return updatedStateChunk;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    UPDATE1_ASYNC: (currentState) => {
+      return new Promise((resolve, reject) => {
+        (async () => {
+          try {
+            setTimeout(() => {
+              const updatedStateChunk = { n1: 1000 };
+              resolve(updatedStateChunk);
+            }, 100);
+          } catch (error) {
+            reject(new Error(error.message));
+          }
+        })();
+      });
+    },
+
+    UPDATE2_ASYNC: (currentState) => {
+      return new Promise((resolve, reject) => {
+        (async () => {
+          try {
+            setTimeout(() => {
+              const updatedStateChunk = { n2: 2000 };
+              resolve(updatedStateChunk);
+            }, 500);
+          } catch (error) {
+            reject(new Error(error.message));
+          }
+        })();
+      });
+    },
+
+    UPDATE3_ASYNC: (currentState) => {
+      return new Promise((resolve, reject) => {
+        (async () => {
+          try {
+            setTimeout(() => {
+              const updatedStateChunk = { n3: 3000 };
+              resolve(updatedStateChunk);
+            }, 800);
+          } catch (error) {
+            reject(new Error(error.message));
+          }
+        })();
+      });
+    }
+  };
+
+  initStoreSlice("TEST_STORE", actions, {
+    n1: 10,
+    n2: 20,
+    n3: 30
+  });
+};
+
+export default init;
+```
+
+**2. Initialise store slice:**
+
+```jsx
+// FILE: index.js
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+import App from "./App";
+import initTestStore from "./store/testStore";
+
+// Initialising "TEST_STORE"
+initTestStore();
+
+const rootElement = document.getElementById("root");
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  rootElement
+);
+```
+
+**3. Managing state in component:**
+
+```jsx
+// FILE: App.js
+
+import React from "react";
+import { useStore } from "global-hookstore";
+import "./styles.css";
+
+export default function App() {
+  const { state, dispatch, dispatchAsync } = useStore("TEST_STORE");
+  
+  const SyncUpdate = () => {
+    dispatch("UPDATE1");
+    dispatch("UPDATE2");
+    dispatch("UPDATE3");
+  };
+
+  const AsyncUpdate = () => {
+    dispatchAsync("UPDATE1_ASYNC");
+    dispatchAsync("UPDATE2_ASYNC");
+    dispatchAsync("UPDATE3_ASYNC");
+  };
+
+  return (
+    <div className="App">
+      <p>1. {state.n1}</p>
+      <p>2. {state.n2}</p>
+      <p>3. {state.n3}</p>
+      <p><button onClick={SyncUpdate}>Synchronous Update</button></p>
+      <p><button onClick={AsyncUpdate}>Asynchronous Update</button></p>
+    </div>
+  );
+}
+```
+
+### Live Exapmples:
+
+1. State update with Synchronous and Asynchronous actions - [https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy](https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy)
+2. Optout component rerender on state update - [https://codesandbox.io/s/global-statehook-optout-rerender-zuvo6](https://codesandbox.io/s/global-statehook-optout-rerender-zuvo6)
+3. Using multiple state-slices - [https://codesandbox.io/s/global-statehook-multiple-state-slices-9nec4?file=/src/index.js](https://codesandbox.io/s/global-statehook-multiple-state-slices-9nec4?file=/src/index.js)
+
+### Author:
+Abhay Kumar
+
+### License:
+This project is licensed under the MIT License.

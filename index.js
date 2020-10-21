@@ -33,7 +33,7 @@ const dequeue = function () {
 
 let universe = {};
 
-export const useStore = (sliceIdentifier, shouldListen = true) => {
+export const useStore = (sliceIdentifier, shouldTriggerRerender = true) => {
   const setState = useState(universe[sliceIdentifier].globalState)[1];
 
   const dispatchAsync = useCallback(
@@ -90,16 +90,16 @@ export const useStore = (sliceIdentifier, shouldListen = true) => {
 
   useEffect(() => {
     let { listners } = universe[sliceIdentifier];
-    if (shouldListen) {
+    if (shouldTriggerRerender) {
       listners.push(setState);
 
       return () => {
         listners = listners.filter((listner) => listner !== setState);
       };
     }
-  }, [setState, shouldListen, sliceIdentifier]);
+  }, [setState, shouldTriggerRerender, sliceIdentifier]);
 
-  return [universe[sliceIdentifier].globalState, dispatch, dispatchAsync];
+  return {state: universe[sliceIdentifier].globalState, dispatch: dispatch, dispatchAsync: dispatchAsync};
 };
 
 export const initStoreSlice = (sliceIdentifier, actions, initialState) => {

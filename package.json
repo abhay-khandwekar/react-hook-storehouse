@@ -1,0 +1,28 @@
+{
+  "name": "global-hookstore",
+  "version": "1.0.0",
+  "description": "Manages global state of React application.\nImplemented around react-hooks, optimized for both synchronous and asynchronous global-state update operation.",
+  "main": "index.js",
+  "keywords": [
+    "react",
+    "store",
+    "state management",
+    "react hook store",
+    "hook",
+    "hooks",
+    "react hooks",
+    "asynchronous store",
+    "synchronous store",
+    "javascript promise",
+    "promise",
+    "async await"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abhay Kumar",
+  "license": "MIT",
+  "dependencies": {
+    "react": ">=16.8.0"
+  }
+}

@@ -1,4 +1,4 @@
-global-hookstore  
+react-hooka  
 ================
 ----------------------------------------------------------------------
 Global state management based on React-hooks, with built-in support for both synchronous & queued-asynchronus (FIFO) actions.
@@ -14,12 +14,12 @@ Table of Contents
     * [Actions](#actions)
     * [Synchronous Actions](#synchronous-actions)
     * [Asynchronous Actions](#asynchronous-actions)
-* [Using global-hookstore](#using-global-hookstore) 
+* [Using react-hooka](#using-react-hooka) 
 * [Example](#example)
 * [Live Exapmples](#live-exapmples)
 
 ### Introduction:
-"global-hookstore" is React-hook based state management library. "global-hookstore" supports both synchronous & queued-asynchronus(FIFO) actions. 
+"react-hooka" is React-hook based state management library. "react-hooka" supports both synchronous & queued-asynchronus(FIFO) actions. 
 
 All asynchronous state update operations are guaranteed to change the application state in the order of asynchronous-operation invocation.
 
@@ -29,7 +29,7 @@ React-components which subscribes a given "slice" are only re-rendered when only
 
 ### Install: 
 ```sh
-npm install global-hookstore
+npm install react-hooka
 ```
 
 ## Features, Instruction and Glossary:
@@ -49,7 +49,7 @@ Actions are methods responsible to update the state of a slice in context. Each 
 
 Actions methods recives parameter "currentState" which is a current snapshot of the slice-state.
 
-Actions should return "updatedState", which can be a subset of the state managed by the slice. The state returned by the Action is merged into the slice-state by the global-hookstore.
+Actions should return "updatedState", which can be a subset of the state managed by the slice. The state returned by the Action is merged into the slice-state by the react-hooka.
 
 Actions are of two kinds:
 1. [Synchronous Actions](#synchronous-actions)
@@ -93,8 +93,8 @@ Asynchronous action performs state update in asynchronous fashion, and are non-b
     }
 }
 ```
-### Using global-hookstore:
-Using global-hookstore is straight forward, which requires following steps:
+### Using react-hooka:
+Using react-hooka is straight forward, which requires following steps:
 
 ***Initialise store-slice (state and actions belonging to a slice) using "initStoreSlice" method.***
 
@@ -104,7 +104,7 @@ Using global-hookstore is straight forward, which requires following steps:
 2. **actions:** An object holding all the "actions" to be performed on slice-state. Each action within the "actions" object need to have string "Action-Identifier" which should be unique within the slice.
 3. **initialState:** An object having initial state of the slice. 
 ```jsx
-import { initStoreSlice } from "global-hookstore";
+import { initStoreSlice } from "react-hooka";
 
   const actions = {
   SYNCHRONUS_ACTION_IDENTIFIER: (currentState) => {
@@ -139,10 +139,10 @@ const initialState = {
 
 initStoreSlice("TEST_STORE", actions, initialState);
 ```
-***Use global-hookstore in React component for state management.***
-1. Import **useStore** hook from global-hookstore.
+***Use react-hooka in React component for state management.***
+1. Import **useStore** hook from react-hooka.
 ```jsx
-import { useStore } from "global-hookstore";
+import { useStore } from "react-hooka";
 ```
 2. Use the **useStore** hook with the slice-name of the slice.
 ```jsx
@@ -169,10 +169,10 @@ const { dispatch, dispatchAsync } = useStore("TEST_STORE", false);
 
 ***Delete a store-slice if needed.***
 
-If a store-slice is no more needed in the application, it can be deleted from the global-store. **deleteStoreSlice** method of "global-hookstore" can be used to delete a store-slice.
+If a store-slice is no more needed in the application, it can be deleted from the global-store. **deleteStoreSlice** method of "react-hooka" can be used to delete a store-slice.
 
 ```jsx
-import { deleteStoreSlice } from "global-hookstore";
+import { deleteStoreSlice } from "react-hooka";
 
 deleteStoreSlice("SLICE_NAME");
 ```
@@ -183,7 +183,7 @@ deleteStoreSlice("SLICE_NAME");
 ```jsx
 // FILE: testStore.js
 
-import { initStoreSlice } from "global-hookstore";
+import { initStoreSlice } from "react-hooka";
 
 const init = () => {
   const actions = {
@@ -301,7 +301,7 @@ ReactDOM.render(
 // FILE: App.js
 
 import React from "react";
-import { useStore } from "global-hookstore";
+import { useStore } from "react-hooka";
 import "./styles.css";
 
 export default function App() {

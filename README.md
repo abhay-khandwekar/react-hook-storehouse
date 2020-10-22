@@ -8,7 +8,7 @@ Table of Contents
 -----------------
 * [Introduction](#introduction) 
 * [Install](#install)
-* [Features and Glossary](#features,-instruction-and-glossary)
+* [Features and Glossary](#features-instruction-and-glossary)
     * [Store](#store)   
     * [Slice](#slice)
     * [Actions](#actions)

@@ -1,7 +1,7 @@
 {
   "name": "global-hookstore",
   "version": "1.0.0",
-  "description": "Manages state of react application.\nImplemented around react-hooks, optimized for both synchronous and asynchronous state operation.",
+  "description": "Manages global state of React application.\nImplemented around react-hooks, optimized for both synchronous and asynchronous global-state update operation.",
   "main": "index.js",
   "keywords": [
     "react",

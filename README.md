@@ -1,7 +1,7 @@
 global-hookstore  
 ================
 ----------------------------------------------------------------------
-Global state management nased on React-hooks, with built-in support for both synchronous & queued-asynchronus(FIFO) actions.
+Global state management based on React-hooks, with built-in support for both synchronous & queued-asynchronus (FIFO) actions.
 
 ----------------------------------------------------------------------
 Table of Contents
@@ -337,8 +337,10 @@ export default function App() {
 [https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy](https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy)
 2. **Optout component rerender on state update -**
 [https://codesandbox.io/s/global-statehook-optout-rerender-zuvo6](https://codesandbox.io/s/global-statehook-optout-rerender-zuvo6)
-3. **Using multiple state-slices -**
+3. **Using multiple state-slices on one component -**
 [https://codesandbox.io/s/global-statehook-multiple-state-slices-9nec4?file=/src/index.js](https://codesandbox.io/s/global-statehook-multiple-state-slices-9nec4?file=/src/index.js)
+4. **Using multiple state-slices through multiple components -**
+[https://codesandbox.io/s/global-statehook-multiple-state-slices-multiple-components-x7e98?file=/src/App.js](https://codesandbox.io/s/global-statehook-multiple-state-slices-multiple-components-x7e98?file=/src/App.js)
 
 ### Author:
 Abhay Kumar

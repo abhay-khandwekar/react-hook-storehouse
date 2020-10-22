@@ -131,11 +131,13 @@ import { initStoreSlice } from "global-hookstore";
   }
 };
 
-initStoreSlice("TEST_STORE", actions, {
-  n1: 10,
-  n2: 20,
-  n3: 30
-});
+const initialState = {
+    n1: 10,
+    n2: 20,
+    n3: 30
+  };
+
+initStoreSlice("TEST_STORE", actions, initialState);
 ```
 ***Use global-hookstore in React component for state management.***
 1. Import **useStore** hook from global-hookstore.

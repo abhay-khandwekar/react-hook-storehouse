@@ -16,16 +16,16 @@ Table of Contents
     * [Asynchronous Actions](#asynchronous-actions)
 * [Using react-hooka](#using-react-hooka) 
 * [Example](#example)
-* [Live Exapmples](#live-exapmples)
+* [Live Examples](#live-examples)
 
 ### Introduction:
-"react-hooka" is React-hook based state management library. "react-hooka" supports both synchronous & queued-asynchronus(FIFO) actions. 
+"react-hooka" is React-hook based state management library. "react-hooka" supports both synchronous & queued-asynchronous (FIFO) actions. 
 
 All asynchronous state update operations are guaranteed to change the application state in the order of asynchronous-operation invocation.
 
-The global-state is designed to have multiple independent slices within the global store. Each slice is an independent sandbox which contain "state" as well as "actions". Operations performed in context of a given "slice" does not affect other "slices" within the store.
+The react-hooka is designed to have multiple independent slices within the global store. Each slice is an independent sandbox which contain "state" as well as "actions". Operations performed in context of a given "slice" does not affect other "slices" within the store.
 
-React-components which subscribes a given "slice" are only re-rendered when only the subscribed slice-state gets any update. React-components using a slice have option to optout re-renders on slice-state updates if the need be.
+React-components which subscribes a given "slice" are only re-rendered when the subscribed slice-state gets any update. React-components using a slice have option to optout re-renders on slice-state updates if the need be.
 
 ### Install: 
 ```sh
@@ -37,17 +37,17 @@ npm install react-hooka
 ### Store:
 Store refers to a global object holding application state and available action on the state in a React application. 
 
-Under the hood store maintains multiple slices, and each of the slice independently manages it's state using the actions available on the state.
+Under the hood store maintains multiple slices, and each of the slice independently manages its state using the actions available on the state.
 
 ### Slice:
-Slice is a an independent subset of the store. A slice holds a subset of application state and available actions on the state.
+Slice is an independent subset of the store. A slice holds a subset of application state and defined actions on the state.
 
 Any operation in context of a given slice does not impact other slices within the store. Only the components using (subscribed to) a given slice are notified of the state updates and may perform rerender if required.
 
 ### Actions:
 Actions are methods responsible to update the state of a slice in context. Each action is identified by an "Action-Identifier" which is unique within a slice.
 
-Actions methods recives parameter "currentState" which is a current snapshot of the slice-state.
+Actions methods receives "currentState" as parameter which represents the current snapshot of slice-state.
 
 Actions should return "updatedState", which can be a subset of the state managed by the slice. The state returned by the Action is merged into the slice-state by the react-hooka.
 
@@ -56,7 +56,7 @@ Actions are of two kinds:
 2. [Asynchronous Actions](#asynchronous-actions)
 
 ### Synchronous Actions:
-Synchronous action performs state update in synchronous fashion, and are blocking in nature. All state update operations which do not perform I/O or Network oprations are cadidates for synchronous actions. 
+Synchronous action performs state update in synchronous fashion and are blocking in nature. All state update operations which do not perform I/O or Network operations are cadidates for synchronous actions. 
 
 ```jsx
 // Synchronous Action named "SYNCHRONUS_ACTION_IDENTIFIER"
@@ -72,7 +72,7 @@ SYNCHRONUS_ACTION_IDENTIFIER: (currentState) => {
 }
 ```
 ### Asynchronous Actions:
-Asynchronous action performs state update in asynchronous fashion, and are non-blocking in nature. All Asynchronous operations are expected to return a "promise". All state update operations which perform I/O or Network oprations are cadidates for asynchronous actions. 
+Asynchronous action performs state update in asynchronous fashion and are non-blocking in nature. All Asynchronous operations are expected to return a "promise". All state update operations which perform I/O or Network oprations are cadidates for asynchronous actions. 
 
 ```jsx
 // Asynchronous Action named "ASYNCHRONUS_ACTION_IDENTIFIER"
@@ -101,7 +101,7 @@ Using react-hooka is straight forward, which requires following steps:
 "initStoreSlice" method takes 3 parameters:
 
 1. **sliceIdentifier:** Apllication wide unique string value to identify store-slice.
-2. **actions:** An object holding all the "actions" to be performed on slice-state. Each action within the "actions" object need to have string "Action-Identifier" which should be unique within the slice.
+2. **actions:** An object holding all the "actions" to be performed on slice-state. All actions within the "actions" object need to have string "Action-Identifier" which should be unique within the slice.
 3. **initialState:** An object having initial state of the slice. 
 ```jsx
 import { initStoreSlice } from "react-hooka";
@@ -149,14 +149,16 @@ import { useStore } from "react-hooka";
 const {state, dispatch, dispatchAsync} = useStore("TEST_STORE");
 ```
 **state** represents the current state of the slice-state.
+
 **dispatch** method can be used to perform **synchronous (blocking)** operation on slice-state.
+
 **dispatchasync** method can be used to perform **asynchronous (non-blocking)** operation on slice-state.
 
 ***OPTIONAL OPTOUT from rerendering of React-components from slice-state updates.***
 
-There might be cases when React-components are only performing actions but not displaying the state (*such as a FORM only adding new items to state but not displaying existing items.*). In such cases React-components can optout rerenders by passing "false" to the parameter 2nd parameter **shouldTriggerRerender** of **useStore** hook. 
+There might be cases when React-components are only performing actions but not displaying the state (*such as a FORM only adding new items to state but not displaying existing items.*). In such cases React-components can optout rerenders by passing "false" to the 2nd parameter **shouldTriggerRerender** of **useStore** hook. 
 
-By default value of **shouldTriggerRerender** is **true**, thus all slice-state updates will trigger rerender on React-components which are using **useStore** hook.
+By default, value of **shouldTriggerRerender** is **true**, thus all slice-state updates will trigger rerender on React-components which are using **useStore** hook.
 
 ```jsx
 const { state, dispatch, dispatchAsync } = useStore("TEST_STORE", false);
@@ -272,7 +274,7 @@ const init = () => {
 export default init;
 ```
 
-**2. Initialise store slice:**
+**2. Initialize store slice:**
 
 ```jsx
 // FILE: index.js
@@ -331,7 +333,7 @@ export default function App() {
 }
 ```
 
-### Live Exapmples:
+### Live Examples:
 
 1. **State update with Synchronous and Asynchronous actions -**
 [https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy](https://codesandbox.io/s/global-statehook-sync-async-actions-rkipy)
@@ -347,3 +349,5 @@ Abhay Kumar
 
 ### License:
 This project is licensed under the MIT License.
+
+

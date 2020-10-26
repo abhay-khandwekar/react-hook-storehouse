@@ -3,6 +3,11 @@
   "version": "1.0.1",
   "description": "Manages global state of React application.\nImplemented around react-hooks, optimized for both synchronous and asynchronous global-state update operation.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abhay-khandwekar/react-hooka.git"
+  },
+  "homepage": "https://github.com/abhay-khandwekar/react-hooka",
   "keywords": [
     "react",
     "store",

@@ -1,6 +1,6 @@
 {
   "name": "react-hooka",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Manages global state of React application.\nImplemented around react-hooks, optimized for both synchronous and asynchronous global-state update operation.",
   "main": "index.js",
   "repository": {

@@ -38,19 +38,16 @@ export const useStore = (sliceIdentifier, shouldTriggerRerender = true) => {
 
   const dispatchAsync = useCallback(
     (actionIdentifier, payload) => {
-      const { globalState, listners, actions } = universe[sliceIdentifier];
+      const { listners, actions } = universe[sliceIdentifier];
       return universe[sliceIdentifier].enqueue(() => {
         return new Promise((resolve, reject) => {
           (async () => {
             try {
-              const updatedStateChunk = await actions[actionIdentifier](
-                globalState,
+              const updatedState = await actions[actionIdentifier](
+                universe[sliceIdentifier].globalState,
                 payload
               );
-              universe[sliceIdentifier].globalState = {
-                ...universe[sliceIdentifier].globalState,
-                ...updatedStateChunk
-              };
+              universe[sliceIdentifier].globalState = updatedState;
               for (const listner of listners) {
                 listner(universe[sliceIdentifier].globalState);
               }
@@ -67,17 +64,13 @@ export const useStore = (sliceIdentifier, shouldTriggerRerender = true) => {
 
   const dispatch = useCallback(
     (actionIdentifier, payload) => {
-      const { globalState, listners, actions } = universe[sliceIdentifier];
-
+      const { listners, actions } = universe[sliceIdentifier];
       try {
-        const updatedStateChunk = actions[actionIdentifier](
-          globalState,
+        const updatedState = actions[actionIdentifier](
+          universe[sliceIdentifier].globalState,
           payload
         );
-        universe[sliceIdentifier].globalState = {
-          ...universe[sliceIdentifier].globalState,
-          ...updatedStateChunk
-        };
+        universe[sliceIdentifier].globalState = updatedState;
         for (const listner of listners) {
           listner(universe[sliceIdentifier].globalState);
         }
